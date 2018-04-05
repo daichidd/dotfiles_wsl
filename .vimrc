@@ -52,7 +52,7 @@ set whichwrap=b,s,h,l,<,>,[,],~ " cursor
 set number
 set cursorline
 hi CursorLine ctermfg=NONE ctermbg=black
-#set cursorcolumn
+"set cursorcolumn
 
 
 "-------------------------
