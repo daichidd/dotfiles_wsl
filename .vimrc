@@ -7,11 +7,25 @@ set fenc=utf-8
 set fileformats=unix,dos,mac
 set ambiwidth=double
 
-set tabstop=4 " tab indent
+set nobackup
+set noswapfile
+set hidden
+set showcmd
+
+set tabstop=4
+set shiftwidth=4
 set softtabstop=4
 set autoindent
 set smartindent
-set shiftwidth=4
+
+set laststatus=2
+
+set wildmode=list:longest
+set wildmenu
+
+set virtualedit=onemore
+
+set visualbell
 
 syntax enable
 filetype on
@@ -38,6 +52,8 @@ set whichwrap=b,s,h,l,<,>,[,],~ " cursor
 set number
 set cursorline
 hi CursorLine ctermfg=NONE ctermbg=black
+#set cursorcolumn
+
 
 "-------------------------
 " shortcut
@@ -98,10 +114,6 @@ function! Filepath()
 	endif
 endfunction
 
-" # show statusbar
-set laststatus=2
-" # hide --INSERT--
-set noshowmode
 
 "--------------------------
 " paste setting

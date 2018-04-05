@@ -1,4 +1,8 @@
 
+# gopath
+export GPATH=$HOME/go_dev
+export PATH=$PATH:$HOME/go_dev/bin:/usr/bin/go/bin
+
 # goenv
 export PATH="$HOME/.goenv/bin:$PATH"
 eval "$(goenv init -)"
