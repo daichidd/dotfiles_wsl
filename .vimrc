@@ -19,14 +19,14 @@ set smartindent
 
 set laststatus=2
 
-set wildmode=list:longest
+set title
+set wildmode=list:full
 set wildmenu
 
 set virtualedit=onemore
 
 set visualbell
 
-syntax enable
 filetype on
 
 augroup fileTypeIndent
@@ -44,7 +44,7 @@ augroup fileTypeIndent
 	autocmd BufNewFile,BufRead *.tmpl setlocal tabstop=2 softtabstop=2
 augroup END
 
-set incsearch " search
+set incsearch
 set ignorecase
 set smartcase
 set hlsearch
@@ -73,53 +73,45 @@ set showmatch " %%
 source $VIMRUNTIME/macros/matchit.vim
 
 "-------------------------
-" neobundle
+" dein
 "-------------------------
 
-if has('vim_starting')
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
-
-	if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
-		echo "install NeoBundle"
-		:call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
-	endif
+if &compatible
+	set nocomplete
 endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call neobundle#begin(expand('~/.vim/bundle'))
+call dein#begin(expand('~/.vim/dein'))
 
-NeoBundleFetch 'Shougo/neobundle.vim'
-" plugins here
-"--------------------------
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'christoomey/vim-tmux-navigator'
-NeoBundle 'ctrlpvim/ctrlp.vim'
+call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neomru.vim')
+call dein#add('Shougo/neosnippet')
 
-"--------------------------
+call dein#add('w0ng/vim-hybrid')
+call dein#add('itchyny/lightline.vim')
+call dein#add('tpope/vim-fugitive')
+call dein#add('scrooloose/nerdtree')
+call dein#add('Shougo/neocomplcache')
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neomru.vim')
+call dein#add('mattn/emmet-vim')
+call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('christoomey/vim-tmux-navigator')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('faith/vim-go')
+
+call dein#end()
+
 colorscheme hybrid
+syntax on
 
-call neobundle#end()
-
-filetype plugin indent on
-
-NeoBundleCheck
-
-function! Filepath()
-	if winwidth(0) > 90
-		return expand("%:s")
-	else
-		return expand("%:t")
-	endif
-endfunction
-
+"--------------------------
+" colorscheme
+"--------------------------
+colorscheme elflord
 
 "--------------------------
 " paste setting
@@ -193,4 +185,4 @@ inoremap (<Enter> ()<Left><CR><ESC><s-o>
 
 set rtp+=$GOROOT/misc/vim
 exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-set visualbell t_vb=
+set completeopt=menu,preview

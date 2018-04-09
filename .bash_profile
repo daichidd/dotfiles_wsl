@@ -3,8 +3,7 @@
 export PATH=$PATH:/usr/local/bin/
 
 # gopath
-export GOPATH=$HOME/go_dev/revel_sample
-#export GOPATH=$HOME/go_dev/learn_echo
+export GOPATH=$HOME/go_dev/
 
 export PATH=$PATH:$GOPATH/bin
 
