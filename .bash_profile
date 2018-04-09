@@ -1,7 +1,12 @@
 
+# build vim
+export PATH=$PATH:/usr/local/bin/
+
 # gopath
-export GPATH=$HOME/go_dev
-export PATH=$PATH:$HOME/go_dev/bin:/usr/bin/go/bin
+export GOPATH=$HOME/go_dev/revel_sample
+#export GOPATH=$HOME/go_dev/learn_echo
+
+export PATH=$PATH:$GOPATH/bin
 
 # goenv
 export PATH="$HOME/.goenv/bin:$PATH"

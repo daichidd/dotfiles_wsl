@@ -3,7 +3,6 @@ scriptencoding utf-8
 
 set fileencoding=utf-8
 set fileencodings=iso-2022-jp,utf-8,euc-jp,sjis
-set fenc=utf-8
 set fileformats=unix,dos,mac
 set ambiwidth=double
 
@@ -36,9 +35,13 @@ augroup fileTypeIndent
 	autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4
 	autocmd BufNewFile,BufRead *.php setlocal tabstop=4 softtabstop=4
 	autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4
+	autocmd BufNewFile,BufRead *.cr setlocal tabstop=4 softtabstop=4
 	autocmd BufNewFile,BufRead *.js setlocal tabstop=2 softtabstop=2
 	autocmd BufNewFile,BufRead *.jsx setlocal tabstop=2 softtabstop=2
 	autocmd BufNewFile,BufRead *.vue setlocal tabstop=2 softtabstop=2
+	autocmd BufNewFile,BufRead *.html setlocal tabstop=2 softtabstop=2
+	autocmd BufNewFile,BufRead *.twig setlocal tabstop=2 softtabstop=2
+	autocmd BufNewFile,BufRead *.tmpl setlocal tabstop=2 softtabstop=2
 augroup END
 
 set incsearch " search
@@ -88,10 +91,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " plugins here
 "--------------------------
 
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'mattn/emmet-vim'
@@ -100,6 +104,8 @@ NeoBundle 'christoomey/vim-tmux-navigator'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 
 "--------------------------
+colorscheme hybrid
+
 call neobundle#end()
 
 filetype plugin indent on
@@ -132,41 +138,55 @@ if &term =~ "xterm"
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-"--------------------------
-" neocomplete setting
-"--------------------------
-highlight Pmenu ctermbg=4
-highlight PmenuSel ctermbg=1
-highlight PmenuSbar ctermbg=4
+noremap PP "0p
+noremap x "_x
 
-set completeopt=menuone
-set completeopt=menuone
+"--------------------------
+" neocomplcache setting
+"--------------------------
 
-let g:rsenseUseOmniFunc = 1
-let g:auto_ctags = 1
+NeoBundle 'Shougo/neocomplcache'
+let g:acp_enableAtStartup = 0
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_camel_case_completion  =  1
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_max_list = 20
 let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_dictionary_filetype_lists = {
+	\ 'default' : ''
+	\ }
 
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
-if !exists('g:neocomplete#keyword_patterns')
-	let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()   
+	return neocomplcache#smart_close_popup() . "\<CR>" 
+endfunction 
+
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>" 
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>" 
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>" 
+inoremap <expr><C-y>  neocomplcache#close_popup() 
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 "--------------------------
 " Indent Guides setting
 "--------------------------
 let g:indent_guides_enable_on_vim_startup = 1
 
+"--------------------------
+" close tab
+"--------------------------
+
+augroup MyXML
+	autocmd!
+	autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+	autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
+inoremap {<Enter> {}<Left><CR><ESC><s-o>
+inoremap [<Enter> []<Left><CR><ESC><s-o>
+inoremap (<Enter> ()<Left><CR><ESC><s-o>
 
 "--------------------------
 " setting for go lang
