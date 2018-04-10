@@ -105,13 +105,17 @@ call dein#add('faith/vim-go')
 
 call dein#end()
 
-colorscheme hybrid
-syntax on
-
 "--------------------------
 " colorscheme
 "--------------------------
 colorscheme elflord
+syntax on
+
+"--------------------------
+" tab setting
+"--------------------------
+
+set showtabline=2
 
 "--------------------------
 " paste setting
