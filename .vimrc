@@ -15,7 +15,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
-set smartindent
+"set smartindent
 
 set laststatus=2
 
@@ -26,6 +26,8 @@ set wildmenu
 set virtualedit=onemore
 
 set visualbell
+
+set clipboard=unnamed,autoselect
 
 filetype on
 
@@ -79,9 +81,19 @@ source $VIMRUNTIME/macros/matchit.vim
 if &compatible
 	set nocomplete
 endif
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call dein#begin(expand('~/.vim/dein'))
+let s:dein_dir = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+if &runtimepath !~# '/dein.vim'
+	if !isdirectory(s:dein_repo_dir)
+		execute '!git clone https://github.com:Shougo/dein.vim' s:dein_repo_dir
+	endif
+	execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+
+call dein#begin(s:dein_dir)
 
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
@@ -101,7 +113,9 @@ call dein#add('mattn/emmet-vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('christoomey/vim-tmux-navigator')
 call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('faith/vim-go')
+
+call dein#add('fatih/vim-go')
+call dein#add('vim-jp/vim-go-extra')
 
 call dein#end()
 
@@ -120,19 +134,6 @@ set showtabline=2
 "--------------------------
 " paste setting
 "--------------------------
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-        set paste
-	return a;ret
-    endfunction
-
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
 
 noremap PP "0p
 noremap x "_x
@@ -168,6 +169,8 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " Indent Guides setting
 "--------------------------
 let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
 
 "--------------------------
 " close tab
@@ -190,3 +193,11 @@ inoremap (<Enter> ()<Left><CR><ESC><s-o>
 set rtp+=$GOROOT/misc/vim
 exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 set completeopt=menu,preview
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
