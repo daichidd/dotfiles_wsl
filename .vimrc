@@ -69,6 +69,13 @@ nnoremap <down> gj
 nnoremap <up> gk
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
+"split for cmder
+nnoremap sh <C-w>h
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sw <C-w>w
+
 set backspace=indent,eol,start
 
 set showmatch " %%

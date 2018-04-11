@@ -1,6 +1,7 @@
 
 # build vim
 export PATH=$PATH:/usr/local/bin/
+alias vi='vim'
 
 # gopath
 export GOPATH=$HOME/go_dev/
