@@ -163,8 +163,8 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplcache_dictionary_filetype_lists = {
-	\ 'default' : ''
-	\ }
+    \ 'default' : ''
+    \ }
 
 inoremap <expr><C-g>     neocomplcache#undo_completion()
 inoremap <expr><C-l>     neocomplcache#complete_common_string()
@@ -247,8 +247,14 @@ inoremap (<Enter> ()<Left><CR><ESC><s-o>
 " setting for go lang
 "--------------------------
 
+filetype off
+filetype plugin indent off
 set rtp+=$GOROOT/misc/vim
-exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+filetype plugin indent on
+syntax on 
+autocmd FileType go autocmd BufWritePre Fmt
+set rtp+=$GOPATH/src/github.com/nsf/gocode/vim
+set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
 set completeopt=menu,preview
 
 let g:go_highlight_functions = 1
